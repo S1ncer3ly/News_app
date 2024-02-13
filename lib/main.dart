@@ -11,14 +11,14 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   List<dynamic> articles = [];
-  TextEditingController _searchController = TextEditingController();
-  FocusNode _searchFocusNode = FocusNode(); // Define a FocusNode for the search input
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode(); // Define a FocusNode for the search input
   bool _isSearching = false;
   bool _loading = false;
-  int _pageSize = 10;
+  final int _pageSize = 10;
   int _currentPage = 1;
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   Future<void> getNews(String query) async {
     if (_loading) return; // Prevent multiple simultaneous requests
@@ -76,7 +76,8 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _isSearching ? TextField(
+        title: _isSearching
+            ? TextField(
           controller: _searchController,
           focusNode: _searchFocusNode,
           decoration: const InputDecoration(
@@ -90,7 +91,8 @@ class _NewsScreenState extends State<NewsScreen> {
             _currentPage = 1; // Reset page number when new search is performed
             getNews(value);
           },
-        ) : const Text('Top News'),
+        )
+            : const Text('Top News'),
         actions: [
           IconButton(
             icon: Icon(_isSearching ? Icons.close : Icons.search),
@@ -116,7 +118,7 @@ class _NewsScreenState extends State<NewsScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -129,19 +131,33 @@ class _NewsScreenState extends State<NewsScreen> {
               ),
             ),
             ListTile(
-              title: Text('About Us'),
+              title: const Text('About Us'),
               onTap: () {
-                // Navigate to the About Us screen
-                Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
-              },
-            ),
-            ListTile(
-              title: Text('Contact Us'),
-              onTap: () {
-                // Navigate to the Contact Us screen
-                Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Contact Information'),
+                      content: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Name: XYZ'),
+                          Text('Number: 123'),
+                          Text('Email: sidd@xyz'),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ],
@@ -221,7 +237,7 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Widget _buildLoadingIndicator() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }
@@ -234,7 +250,7 @@ class _NewsScreenState extends State<NewsScreen> {
           _currentPage++;
           getNews(_searchController.text);
         },
-        child: Text('Load More'),
+        child: const Text('Load More'),
       ),
     );
   }
