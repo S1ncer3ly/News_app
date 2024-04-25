@@ -5,14 +5,16 @@ import 'package:intl/intl.dart';
 import 'news_detail_screen.dart';
 
 class NewsScreen extends StatefulWidget {
+  const NewsScreen({super.key});
+
   @override
-  _NewsScreenState createState() => _NewsScreenState();
+  NewsScreenState createState() => NewsScreenState();
 }
 
-class _NewsScreenState extends State<NewsScreen> {
+class NewsScreenState extends State<NewsScreen> {
   List<dynamic> articles = [];
   final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode(); // Define a FocusNode for the search input
+  final FocusNode _searchFocusNode = FocusNode();
   bool _isSearching = false;
   bool _loading = false;
   final int _pageSize = 10;
@@ -21,17 +23,17 @@ class _NewsScreenState extends State<NewsScreen> {
   final ScrollController _scrollController = ScrollController();
 
   Future<void> getNews(String query) async {
-    if (_loading) return; // Prevent multiple simultaneous requests
+    if (_loading) return;
     _loading = true;
 
     String apiKey = '96bf0043f6d94973a2426018fbd78cb7';
     String region = 'in';
     String url =
-        'https://newsapi.org/v2/top-headlines?country=in&pageSize=$_pageSize&page=$_currentPage&apiKey=$apiKey';
+        'https://newsapi.org/v2/top-headlines?country=$region&pageSize=$_pageSize&page=$_currentPage&apiKey=$apiKey';
 
     if (query.isNotEmpty) {
-      // Modify the URL to use the search query
-      url = 'https://newsapi.org/v2/everything?q=$query&pageSize=$_pageSize&page=$_currentPage&apiKey=$apiKey';
+      url =
+          'https://newsapi.org/v2/everything?q=$query&pageSize=$_pageSize&page=$_currentPage&apiKey=$apiKey';
     }
 
     var response = await http.get(Uri.parse(url));
@@ -47,7 +49,7 @@ class _NewsScreenState extends State<NewsScreen> {
         _loading = false;
       });
     } else {
-      print('Failed to load news');
+      debugPrint('Failed to load news');
       _loading = false;
     }
   }
@@ -66,7 +68,8 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       _currentPage++;
       getNews(_searchController.text);
     }
@@ -78,20 +81,20 @@ class _NewsScreenState extends State<NewsScreen> {
       appBar: AppBar(
         title: _isSearching
             ? TextField(
-          controller: _searchController,
-          focusNode: _searchFocusNode,
-          decoration: const InputDecoration(
-            hintText: 'Search',
-            border: InputBorder.none,
-          ),
-          onChanged: (value) {
-            setState(() {});
-          },
-          onSubmitted: (value) {
-            _currentPage = 1; // Reset page number when new search is performed
-            getNews(value);
-          },
-        )
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                decoration: const InputDecoration(
+                  hintText: 'Search',
+                  border: InputBorder.none,
+                ),
+                onChanged: (value) {
+                  setState(() {});
+                },
+                onSubmitted: (value) {
+                  _currentPage = 1;
+                  getNews(value);
+                },
+              )
             : const Text('Top News'),
         actions: [
           IconButton(
@@ -101,7 +104,7 @@ class _NewsScreenState extends State<NewsScreen> {
                 _isSearching = !_isSearching;
                 if (!_isSearching) {
                   _searchController.clear();
-                  _currentPage = 1; // Reset page number when closing search
+                  _currentPage = 1;
                   getNews('');
                 }
               });
@@ -152,7 +155,35 @@ class _NewsScreenState extends State<NewsScreen> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text('Close'),
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Contact Us'),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Contact Information'),
+                      content: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Email: sidd@xyz'),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Close'),
                         ),
                       ],
                     );
@@ -175,7 +206,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
           return GestureDetector(
             onTap: () {
-              // Navigate to NewsDetailScreen when tapped
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -192,21 +222,22 @@ class _NewsScreenState extends State<NewsScreen> {
               );
             },
             child: Card(
-              elevation: 3,
+              shape: const RoundedRectangleBorder(borderRadius:BorderRadius.all(Radius.zero)),
+              elevation: 10,
               margin: const EdgeInsets.all(8),
               child: ListTile(
                 leading: articles[index]['urlToImage'] != null
                     ? Image.network(
-                  articles[index]['urlToImage'],
-                  height: 100,
-                  width: 100,
-                  fit: BoxFit.cover,
-                )
+                        articles[index]['urlToImage'],
+                        height: 200,
+                        width: 100,
+                        fit: BoxFit.cover,
+                      )
                     : const SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Center(child: Text('No Image')),
-                ),
+                        height: 100,
+                        width: 100,
+                        child: Center(child: Text('No Image')),
+                      ),
                 title: Text(
                   articles[index]['title'],
                   style: const TextStyle(fontWeight: FontWeight.bold),
@@ -216,7 +247,8 @@ class _NewsScreenState extends State<NewsScreen> {
                   children: [
                     const SizedBox(height: 8),
                     Text(
-                      articles[index]['description'] ?? 'No description available',
+                      articles[index]['description'] ??
+                          'No description available',
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -257,7 +289,7 @@ class _NewsScreenState extends State<NewsScreen> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: NewsScreen(),
   ));
 }
