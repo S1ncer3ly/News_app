@@ -188,11 +188,8 @@ class NewsScreenState extends State<NewsScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: 'Team News App\n',
-                                    style: TextStyle(
-                                        color: Colors.grey
-                                    )
-                                ),
+                                    text: 'Team News App\n',
+                                    style: TextStyle(color: Colors.grey)),
                                 TextSpan(
                                   text: 'Number: ',
                                   style: TextStyle(
@@ -201,11 +198,8 @@ class NewsScreenState extends State<NewsScreen> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '********77\n',
-                                  style: TextStyle(
-                                    color: Colors.grey
-                                  )
-                                ),
+                                    text: '********77\n',
+                                    style: TextStyle(color: Colors.grey)),
                                 TextSpan(
                                   text: 'Email: ',
                                   style: TextStyle(
@@ -215,14 +209,11 @@ class NewsScreenState extends State<NewsScreen> {
                                 ),
                                 TextSpan(
                                   text: 'news_app_support@gmail.com',
-                                    style: TextStyle(
-                                        color: Colors.grey
-                                    )
+                                  style: TextStyle(color: Colors.grey),
                                 ),
                               ],
                             ),
                           ),
-
                         ],
                       ),
                       actions: [
@@ -246,11 +237,27 @@ class NewsScreenState extends State<NewsScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Contact Information'),
-                      content: const Column(
+                      content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Email: sidd@xyz'),
+                          RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Email: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'news_app_support@gmail.com',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       actions: [
@@ -297,7 +304,8 @@ class NewsScreenState extends State<NewsScreen> {
               );
             },
             child: Card(
-              shape: const RoundedRectangleBorder(borderRadius:BorderRadius.all(Radius.zero)),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.zero)),
               elevation: 10,
               margin: const EdgeInsets.all(8),
               child: ListTile(
