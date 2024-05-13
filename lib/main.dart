@@ -121,17 +121,49 @@ class NewsScreenState extends State<NewsScreen> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Menu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Stack(
+                    fit: StackFit.loose,
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const Center(
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
+            ),
+            //ToDo
+            ListTile(
+              title: const Text('Categories'),
+              onTap: () {},
             ),
             ListTile(
               title: const Text('About Us'),
@@ -141,13 +173,56 @@ class NewsScreenState extends State<NewsScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Contact Information'),
-                      content: const Column(
+                      content: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Name: XYZ'),
-                          Text('Number: 123'),
-                          Text('Email: sidd@xyz'),
+                          RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Name: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'Team News App\n',
+                                    style: TextStyle(
+                                        color: Colors.grey
+                                    )
+                                ),
+                                TextSpan(
+                                  text: 'Number: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: '********77\n',
+                                  style: TextStyle(
+                                    color: Colors.grey
+                                  )
+                                ),
+                                TextSpan(
+                                  text: 'Email: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'news_app_support@gmail.com',
+                                    style: TextStyle(
+                                        color: Colors.grey
+                                    )
+                                ),
+                              ],
+                            ),
+                          ),
+
                         ],
                       ),
                       actions: [

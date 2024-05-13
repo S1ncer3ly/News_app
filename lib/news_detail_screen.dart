@@ -11,7 +11,8 @@ class NewsDetailScreen extends StatelessWidget {
   final String imageUrl;
   final String url;
 
-  NewsDetailScreen({
+  const NewsDetailScreen({
+    super.key,
     required this.title,
     required this.description,
     required this.author,
@@ -28,7 +29,7 @@ class NewsDetailScreen extends StatelessWidget {
         title: const Text('News Detail'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +42,7 @@ class NewsDetailScreen extends StatelessWidget {
                 ? Image.network(
                     imageUrl,
                     width: double.infinity,
-                    height: 200, // Adjust height as needed
+                    height: 200,
                     fit: BoxFit.cover,
                   )
                 : const SizedBox.shrink(),
@@ -69,7 +70,7 @@ class NewsDetailScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                _launchURL(url); // Call _launchURL function with provided URL
+                _launchURL(url);
               },
               child: const Text('Read More'),
             ),
