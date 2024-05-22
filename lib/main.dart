@@ -292,6 +292,7 @@ class NewsScreenState extends State<NewsScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NewsDetailScreen(
+                    source: articles[index]['source']['name'] ?? 'Unknown',
                     title: articles[index]['title'],
                     description: articles[index]['description'] ?? '',
                     author: articles[index]['author'] ?? 'Unknown',

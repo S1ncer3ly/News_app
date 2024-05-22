@@ -10,6 +10,7 @@ class NewsDetailScreen extends StatelessWidget {
   final String content;
   final String imageUrl;
   final String url;
+  final String source;
 
   const NewsDetailScreen({
     super.key,
@@ -20,59 +21,96 @@ class NewsDetailScreen extends StatelessWidget {
     required this.content,
     required this.imageUrl,
     required this.url,
+    required this.source
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('News Detail'),
-      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Container(
+              height: 350,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
+                  ),
+                  color: Colors.black),
+              child: imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(30.0),
+                        // Adjust the radius as needed
+                        bottomRight: Radius.circular(
+                            30.0),
+                      ),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
             const SizedBox(height: 8),
-            imageUrl.isNotEmpty
-                ? Image.network(
-                    imageUrl,
-                    width: double.infinity,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  )
-                : const SizedBox.shrink(),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: const TextStyle(fontSize: 16),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Author: $author',
-              style: const TextStyle(fontSize: 14),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                'Summarized By $author',
+                style: const TextStyle(fontSize: 14,color: Colors.grey),
+              ),
             ),
-            const SizedBox(height: 4),
-            Text(
-              'Published At: ${DateFormat('dd/MM/yyyy hh:mm a').format(publishedAt)}',
-              style: const TextStyle(fontSize: 14),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                'Published At: ${DateFormat('dd/MM/yyyy ').format(publishedAt)}',
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                description,
+                style: const TextStyle(fontSize: 16),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Text(
+                content,
+                style: const TextStyle(fontSize: 16),
+                maxLines: null,
+              ),
             ),
             const SizedBox(height: 16),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 16),
-              maxLines: null,
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  _launchURL(url);
+                },
+                child: const Text('Read More'),
+              ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                _launchURL(url);
-              },
-              child: const Text('Read More'),
+            const SizedBox(height: 100,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                'Source: $source',
+                style: const TextStyle(fontSize: 14,color: Colors.grey),
+              ),
             ),
           ],
         ),
@@ -82,6 +120,6 @@ class NewsDetailScreen extends StatelessWidget {
 
   void _launchURL(String url) async {
     final uri = Uri.parse(url);
-    await launchUrl(uri,mode:LaunchMode.externalApplication);
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 }
